@@ -22,6 +22,7 @@
 # SOFTWARE.
 
 import os
+import re
 import sys
 import urllib2
 import SocketServer
@@ -91,6 +92,8 @@ class ProxyHandler(BaseHTTPRequestHandler):
         page = page.replace('src="/', 'src="' + target)
         page = page.replace('action="', 'action="' + target)
         page = page.replace('"/api/v1/', '"' + target + 'api/v1/')
+        # replace master
+        page = re.sub('href="/proxy:spark-master-.*:\d{2,5}"', 'href="/proxy:{}"'.format(SPARK_MASTER_HOST), page)
         return page
 
 
